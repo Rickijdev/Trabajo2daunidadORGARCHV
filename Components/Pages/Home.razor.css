@@ -1,0 +1,125 @@
+.container.my-4 {
+    max-width: 1320px;
+    padding-inline: clamp(1rem, 3vw, 2.5rem);
+}
+
+.container.my-4 .card {
+    overflow: hidden;
+    border: 1px solid #e4eaf3;
+    border-radius: 18px;
+    box-shadow: 0 10px 28px rgba(31, 48, 86, 0.08);
+}
+
+.container.my-4 .card-header {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.container.my-4 .card-header:not(.bg-info) {
+    background-color: #172554;
+}
+
+.container.my-4 .card-body {
+    padding: 1.25rem;
+}
+
+.container.my-4 .form-control,
+.container.my-4 .form-select {
+    min-height: 50px;
+    border: 1px solid #d8e0ed;
+    border-radius: 12px;
+}
+
+.container.my-4 .form-control:focus,
+.container.my-4 .form-select:focus {
+    border-color: #6258ed;
+    box-shadow: 0 0 0 0.2rem rgba(98, 88, 237, 0.16);
+}
+
+.container.my-4 .btn {
+    min-height: 46px;
+    border-radius: 12px;
+    font-weight: 650;
+    transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.container.my-4 .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(31, 48, 86, 0.14);
+}
+
+.container.my-4 .list-group-item {
+    padding-block: 0.85rem;
+    border-color: #edf1f7;
+}
+
+.container.my-4 .table-responsive {
+    border-radius: 0 0 18px 18px;
+}
+
+.container.my-4 .table {
+    margin-bottom: 0;
+}
+
+.container.my-4 .table thead th {
+    padding: 0.9rem 1rem;
+    color: #475569;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.container.my-4 .table tbody td {
+    padding: 0.85rem 1rem;
+}
+
+.container.my-4 code {
+    color: #5148cf;
+}
+
+@media (max-width: 576px) {
+    .container.my-4 {
+        padding-inline: 0.75rem;
+    }
+
+    .container.my-4 .card-body {
+        padding: 1rem;
+    }
+}
+.container.my-4 .card-header.bg-dark {
+    background: linear-gradient(135deg, #4f46e5, #2563eb);
+    color: #fff;
+}
+.container.my-4 .row.mb-4 {
+    row-gap: 1.25rem;
+}
+
+.container.my-4 .card-title {
+    color: #26356b;
+    font-size: 1.25rem;
+}
+
+.container.my-4 .list-group-item strong {
+    color: #334155;
+}
+
+.container.my-4 .table thead th {
+    background-color: #f2f4ff;
+    color: #3944a7;
+    border-bottom: 1px solid #e1e6f2;
+}
+
+.container.my-4 .table-hover tbody tr:hover {
+    background-color: #f7f8ff;
+}
+
+.container.my-4 .badge {
+    padding: 0.5em 0.75em;
+    border-radius: 999px;
+}
+
+.container.my-4 .alert {
+    border: 0;
+    border-radius: 14px;
+}
