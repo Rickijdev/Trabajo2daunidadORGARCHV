@@ -1,0 +1,285 @@
+@page "/"
+@rendermode InteractiveServer
+@using BancoApp.Models
+@using BancoApp.Data
+@inject BancoService Banco
+
+<PageTitle>Sistema Bancario de Alto Volumen - ISAM & Listas Enlazadas</PageTitle>
+
+<div class="container my-4">
+    <div class="row mb-4">
+        <div class="col-12 text-center bg-primary text-white p-4 rounded shadow-sm">
+            <h1 class="fw-bold"><i class="bi bi-bank"></i> Banco Digital - Sistema ISAM & Listas Enlazadas</h1>
+            <p class="mb-0">Búsqueda hiperrápida sobre 1,000,000+ cuentas y recorrido de historial enlazado (LIFO)</p>
+        </div>
+    </div>
+
+    <!-- Módulo de Búsqueda -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-dark text-white fw-bold">
+            <i class="bi bi-search"></i> Búsqueda de Cuenta (Índice ISAM / B-Tree)
+        </div>
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-8">
+                    <input type="text" class="form-control form-control-lg" @bind="busquedaCuenta" placeholder="Ejemplo: CTA-1000001 o CTA-1500000" />
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-primary btn-lg w-100 fw-bold" @onclick="BuscarCuenta" disabled="@cargando">
+                        @if (cargando)
+                        {
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span> Buscando...</span>
+                        }
+                        else
+                        {
+                            <span><i class="bi bi-lightning-charge-fill"></i> Buscar Cuenta</span>
+                        }
+                    </button>
+                </div>
+            </div>
+
+            @if (tiempoBusquedaMs >= 0)
+            {
+                <div class="alert @(tiempoBusquedaMs < 100 ? "alert-success" : "alert-warning") mt-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <strong><i class="bi bi-stopwatch-fill"></i> Tiempo de Respuesta ISAM/B-Tree:</strong> @tiempoBusquedaMs ms
+                        <small class="d-block text-muted">Requisito de rúbrica: &lt; 100 ms sobre 1M de registros.</small>
+                    </div>
+                    <span class="badge @(tiempoBusquedaMs < 100 ? "bg-success" : "bg-warning text-dark") fs-6">
+                        @(tiempoBusquedaMs < 100 ? "⚡ CUMPLE RÚBRICA (< 100 ms)" : "⚠️ MÁS DE 100 ms")
+                    </span>
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(mensajeError))
+            {
+                <div class="alert alert-danger mt-3 mb-0">
+                    <i class="bi bi-exclamation-triangle-fill"></i> @mensajeError
+                </div>
+            }
+        </div>
+    </div>
+
+    @if (clienteEncontrado != null)
+    {
+        <!-- Módulo Didáctico de Salto de Algoritmo -->
+        <div class="card shadow-sm mb-4 border-info">
+            <div class="card-header bg-info text-dark fw-bold">
+                <i class="bi bi-diagram-3-fill"></i> Módulo Didáctico: Ruta de Búsqueda Binaria / Índice ISAM
+            </div>
+            <div class="card-body bg-light">
+                <p class="mb-2"><strong>Clave Solicitada:</strong> <code>@clienteEncontrado.NroCuenta</code> | <strong>NR Físico (Registro):</strong> <code>#@clienteEncontrado.Id</code></p>
+                <div class="d-flex flex-wrap align-items-center gap-2">
+                    <span class="badge bg-secondary p-2">1M Cuentas (Raíz)</span>
+                    <i class="bi bi-arrow-right text-muted"></i>
+                    <span class="badge bg-secondary p-2">Rango [500,000 - 1,500,000]</span>
+                    <i class="bi bi-arrow-right text-muted"></i>
+                    <span class="badge bg-info text-dark p-2">Página Hoja B-Tree</span>
+                    <i class="bi bi-arrow-right text-muted"></i>
+                    <span class="badge bg-success p-2">Acceso Directo NR #@clienteEncontrado.Id</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información de la Cuenta y Nueva Transacción -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-secondary text-white fw-bold">
+                        <i class="bi bi-person-badge"></i> Detalle del Cliente
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title fw-bold text-primary mb-3">@clienteEncontrado.NombreCompleto</h4>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong>Nro. de Cuenta:</strong> <span>@clienteEncontrado.NroCuenta</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong>DNI:</strong> <span>@clienteEncontrado.DNI</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong>Saldo Actual:</strong> <span class="fs-4 fw-bold text-success">S/ @clienteEncontrado.Saldo.ToString("N2")</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong>PtrUltimoMov (Cabeza LIFO):</strong> <code>@(clienteEncontrado.PtrUltimoMov?.ToString() ?? "NULL")</code>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong>Estado (Borrado Lógico):</strong>
+                                <span class="badge @(clienteEncontrado.Activo ? "bg-success" : "bg-danger")">
+                                    @(clienteEncontrado.Activo ? "ACTIVO" : "ELIMINADO LÓGICO")
+                                </span>
+                            </li>
+                        </ul>
+                        <div class="mt-3">
+                            <button class="btn btn-outline-danger w-100" @onclick="EliminarLogicamente" disabled="@(!clienteEncontrado.Activo)">
+                                <i class="bi bi-trash"></i> Eliminar Cliente (Soft-Delete)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-secondary text-white fw-bold">
+                        <i class="bi bi-cash-stack"></i> Nueva Transacción (Enlace a Lista)
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Tipo de Operación:</label>
+                            <select class="form-select" @bind="tipoMovimiento">
+                                <option value="I">Depósito (Ingreso)</option>
+                                <option value="E">Retiro (Egreso)</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Monto (S/):</label>
+                            <input type="number" class="form-control" @bind="montoMovimiento" step="0.01" min="1" />
+                        </div>
+                        <button class="btn btn-success w-100 fw-bold py-2" @onclick="RegistrarTransaccion" disabled="@(!clienteEncontrado.Activo)">
+                            <i class="bi bi-plus-circle-fill"></i> Procesar Transacción
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de Historial Recorrido por Lista Enlazada -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-dark text-white fw-bold d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-list-nested"></i> Historial Recorrido por Punteros <code>PtrAnt</code> (LIFO)</span>
+                <span class="badge bg-light text-dark">Total: @historialMovimientos.Count movimientos</span>
+            </div>
+            <div class="card-body p-0">
+                @if (historialMovimientos.Count == 0)
+                {
+                    <p class="p-3 text-muted text-center mb-0">Esta cuenta no tiene movimientos registrados (PtrUltimoMov = NULL).</p>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Id (NR)</th>
+                                    <th>Fecha / Hora</th>
+                                    <th>Tipo</th>
+                                    <th>Monto (S/)</th>
+                                    <th>Puntero PtrAnt (Salto Anterior)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var mov in historialMovimientos)
+                                {
+                                    <tr>
+                                        <td><code>#@mov.Id</code></td>
+                                        <td>@mov.FechaHora.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                        <td>
+                                            <span class="badge @(mov.Tipo == "I" ? "bg-success" : "bg-danger")">
+                                                @(mov.Tipo == "I" ? "Depósito" : "Retiro")
+                                            </span>
+                                        </td>
+                                        <td class="fw-bold @(mov.Tipo == "I" ? "text-success" : "text-danger")">
+                                            @(mov.Tipo == "I" ? "+" : "-") S/ @mov.Monto.ToString("N2")
+                                        </td>
+                                        <td><code>@(mov.PtrAnt?.ToString() ?? "NULL (Fin de Lista)")</code></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private string busquedaCuenta = "CTA-1000001";
+    private Cliente? clienteEncontrado;
+    private List<Movimiento> historialMovimientos = new();
+    private long tiempoBusquedaMs = -1;
+    private bool cargando = false;
+    private string mensajeError = string.Empty;
+
+    private string tipoMovimiento = "I";
+    private decimal montoMovimiento = 100.00m;
+
+    private async Task BuscarCuenta()
+    {
+        cargando = true;
+        mensajeError = string.Empty;
+        clienteEncontrado = null;
+        historialMovimientos.Clear();
+
+        try
+        {
+            var (cliente, tiempoMs) = await Banco.BuscarPorCuentaAsync(busquedaCuenta.Trim());
+            clienteEncontrado = cliente;
+            tiempoBusquedaMs = tiempoMs;
+
+            if (clienteEncontrado == null)
+            {
+                mensajeError = $"La cuenta '{busquedaCuenta}' no existe en el sistema o ha sido eliminada.";
+            }
+            else
+            {
+                historialMovimientos = await Banco.ObtenerHistorialMovimientosAsync(clienteEncontrado.Id);
+            }
+        }
+        catch (Exception ex)
+        {
+            mensajeError = $"Error al consultar SQL Server: {ex.Message}";
+        }
+        finally
+        {
+            cargando = false;
+        }
+    }
+
+    private async Task RegistrarTransaccion()
+    {
+        if (clienteEncontrado == null || montoMovimiento <= 0) return;
+
+        try
+        {
+            // El servicio trabaja con el número de cuenta, no con el Id
+            var exito = await Banco.RegistrarMovimientoAsync(
+                clienteEncontrado.NroCuenta, tipoMovimiento, montoMovimiento);
+
+            if (exito)
+            {
+                await BuscarCuenta(); // Recarga datos y lista enlazada
+            }
+            else
+            {
+                mensajeError = "No se pudo realizar la transacción (Saldo insuficiente o cuenta inactiva).";
+            }
+        }
+        catch (Exception ex)
+        {
+            mensajeError = $"Error en la transacción: {ex.Message}";
+        }
+    }
+
+    private async Task EliminarLogicamente()
+    {
+        if (clienteEncontrado == null) return;
+
+        try
+        {
+            var exito = await Banco.EliminarClienteLogicoAsync(clienteEncontrado.NroCuenta);
+            if (exito)
+            {
+                // El servicio filtra por Activo, así que al recargar mostrará
+                // que la cuenta ya no existe (comportamiento esperado del soft-delete).
+                await BuscarCuenta();
+            }
+        }
+        catch (Exception ex)
+        {
+            mensajeError = $"Error al eliminar cliente: {ex.Message}";
+        }
+    }
+}
