@@ -1,3 +1,129 @@
+/* ==========================================
+   PERSONA 1: Fondo y Paleta "Friendly / Fintech"
+   ========================================== */
+:root {
+    /* Paleta moderna y amigable */
+    --bg-gradiente: linear-gradient(135deg, #eef2ff 0%, #f8fafc 50%, #e0f2fe 100%);
+    --color-primario: #4f46e5;      /* Índigo / Violeta moderno */
+    --color-primario-hover: #4338ca;
+    --color-secundario: #0f172a;    /* Texto oscuro suave */
+    --color-texto: #334155;         /* Gris slate para lectura cómoda */
+    --color-tarjeta: #ffffff;       /* Fondo limpio de contenedores */
+    --radio-borde: 16px;            /* Curvas más suaves y amigables */
+}
+
+/* Fondo general de la página */
+body {
+    background: var(--bg-gradiente) !important;
+    background-attachment: fixed !important;
+    color: var(--color-texto);
+    font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+}
+
+/* ==========================================
+   PERSONA 1: Parte C - Contenedores y Cajas
+   ========================================== */
+
+/* Estilo moderno para todas las tarjetas (cards) */
+.card {
+    border: none !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background-color: #ffffff;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Cabeceras de las tarjetas */
+.card-header {
+    border-bottom: none !important;
+    padding: 1rem 1.25rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.3px;
+}
+
+/* Estilo para los campos de texto e inputs */
+.form-control, .form-control-lg, .form-select {
+    border-radius: 12px !important;
+    border: 1.5px solid #e2e8f0 !important;
+    padding: 0.75rem 1rem !important;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #4f46e5 !important;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15) !important;
+}
+
+/* Botones con estilo moderno */
+.btn-primary {
+    background-color: #4f46e5 !important;
+    border-color: #4f46e5 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25) !important;
+    transition: all 0.2s ease !important;
+}
+
+.btn-primary:hover {
+    background-color: #4338ca !important;
+    border-color: #4338ca !important;
+    transform: translateY(-1px);
+}
+
+/* ==========================================
+   PERSONA 1: Menú Lateral y Navegación
+   ========================================== */
+/* Fondo de la barra lateral */
+.sidebar {
+    background: #ffffff !important;
+    border-right: 1px solid #e2e8f0;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.03);
+}
+
+/* Enlaces del menú */
+.nav-item a {
+    color: #64748b !important;
+    border-radius: 10px !important;
+    margin: 4px 12px !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+}
+
+.nav-item a:hover {
+    background-color: #eef2ff !important;
+    color: #4f46e5 !important;
+}
+
+.nav-item a.active {
+    background-color: #4f46e5 !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+
+
+/* ==========================================
+   PERSONA 1: Alertas y Badges Modernos
+   ========================================== */
+.alert {
+    border: none !important;
+    border-radius: 14px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+}
+
+.badge {
+    border-radius: 8px !important;
+    padding: 0.5em 0.8em !important;
+    font-weight: 600 !important;
+}
+
+
+
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -48,4 +174,35 @@ h1:focus {
 
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
+}
+
+
+/* ==========================================
+   PERSONA 1: Parte B - Título Principal
+   ========================================== */
+.hero-banner {
+    background: linear-gradient(135deg, #4f46e5 0%, #2563eb 100%);
+    color: #ffffff;
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 12px 28px -6px rgba(79, 70, 229, 0.35);
+    text-align: center;
+    margin: 1.5rem 0 2rem 0;
+}
+
+.hero-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.6rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.hero-subtitle {
+    font-size: 1.05rem;
+    color: #e0e7ff;
+    font-weight: 400;
+    max-width: 650px;
+    margin: 0 auto;
+    line-height: 1.5;
 }
