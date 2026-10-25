@@ -1,0 +1,19 @@
+@page "/about"
+@using BancoApp.Components.Layout
+<PageTitle>Acerca de | BancoApp</PageTitle>
+<section class="about-intro">
+    <span class="about-eyebrow">CONOCE EL PROYECTO</span>
+    <h1>Ideas que se convierten<br />en <span>experiencias.</span></h1>
+    <p>BancoApp reúne la consulta de cuentas y sus movimientos en un mismo espacio. Un proyecto del curso de Organización de Archivos de Ingeniería Informática.</p>
+    <a class="about-primary-link" href="">Ir al inicio <NavIcon Name="arrow" /></a>
+    <div class="about-art" aria-hidden="true"><NavIcon Name="bank" /></div>
+</section>
+<section class="about-tools" aria-labelledby="tools-title">
+    <div class="about-section-heading"><h2 id="tools-title">Encuentra tu siguiente paso</h2><span>UN MENÚ, TRES HERRAMIENTAS</span></div>
+    <div class="tool-grid">
+        <a class="tool-card" href=""><span class="tool-icon"><NavIcon Name="home" /></span><span class="tool-number">01</span><h3>Inicio</h3><p>Busca una cuenta, consulta su detalle y revisa sus movimientos.</p><span class="tool-cta">Abrir cuentas <NavIcon Name="arrow" /></span></a>
+        <a class="tool-card" href="counter"><span class="tool-icon"><NavIcon Name="counter" /></span><span class="tool-number">02</span><h3>Counter</h3><p>Prueba el contador interactivo incluido en el proyecto.</p><span class="tool-cta">Abrir contador <NavIcon Name="arrow" /></span></a>
+        <a class="tool-card" href="weather"><span class="tool-icon"><NavIcon Name="weather" /></span><span class="tool-number">03</span><h3>Weather</h3><p>Explora una tabla con datos de ejemplo. No es un pronóstico real.</p><span class="tool-cta">Ver demostración <NavIcon Name="arrow" /></span></a>
+    </div>
+</section>
+<AcademicPresentation />

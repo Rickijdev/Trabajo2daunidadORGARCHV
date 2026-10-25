@@ -1,23 +1,43 @@
-﻿@inherits LayoutComponentBase
+@inherits LayoutComponentBase
+@inject NavigationManager Navigation
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
+<div class="banco-shell" id="banco-shell">
+    <a class="skip-link" href="#contenido-principal">Saltar al contenido</a>
+    <aside class="banco-sidebar" id="menu-principal" aria-label="Menú principal"><NavMenu /></aside>
+    <button class="nav-backdrop" type="button" data-nav-close aria-label="Cerrar menú" tabindex="-1"></button>
+    <div class="banco-workspace" id="banco-workspace">
+        <header class="banco-topbar">
+            <div class="topbar-start">
+                <button class="shell-icon-button menu-toggle" type="button" data-nav-toggle aria-controls="menu-principal" aria-expanded="true" aria-label="Contraer menú" title="Contraer menú"><NavIcon Name="panel" /></button>
+                <div class="breadcrumbs" aria-label="Ubicación actual"><span class="breadcrumb-root">BancoApp</span><NavIcon Name="chevron" /><span class="breadcrumb-current">@PageName</span></div>
+            </div>
+            <div class="topbar-end">
+                <span class="academic-badge"><span></span> Proyecto académico</span>
+                <a class="shell-icon-button" href="about" title="Acerca de BancoApp" aria-label="Acerca de BancoApp"><NavIcon Name="info" /></a>
+                <span class="topbar-divider" aria-hidden="true"></span>
+                <span class="university-monogram" title="Universidad Nacional de Trujillo">UNT</span>
+            </div>
+        </header>
+        <main class="banco-content" id="contenido-principal" tabindex="-1">
+            @if (CurrentPath.Length == 0)
+            {
+                <AcademicPresentation />
+            }
+            <article class="page-content">@Body</article>
+        </main>
+        <footer class="banco-footer"><span><strong>BancoApp</strong> <span class="footer-separator">/</span> Organización de Archivos</span><span>Ingeniería Informática <span class="footer-separator">·</span> UNT</span></footer>
     </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
 </div>
+<div id="blazor-error-ui" role="alert">Se produjo un error en la aplicación. <a href="" class="reload">Volver a cargar</a><button class="dismiss" type="button" aria-label="Cerrar aviso">×</button></div>
 
-<div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
-</div>
+@code {
+    private string CurrentPath => Navigation.ToBaseRelativePath(Navigation.Uri).Split('?', '#')[0].Trim('/').ToLowerInvariant();
+    private string PageName => CurrentPath switch
+    {
+        "counter" => "Counter",
+        "weather" => "Weather",
+        "about" => "Acerca de",
+        "error" => "Error",
+        _ => "Inicio"
+    };
+}

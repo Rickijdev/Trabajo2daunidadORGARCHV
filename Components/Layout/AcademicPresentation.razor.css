@@ -1,0 +1,36 @@
+/* Presentación académica solicitada por el equipo. */
+.academic-presentation { scroll-margin-top:105px; background:#fff; border:1px solid #e3e6f1; border-radius:20px; overflow:hidden; box-shadow:0 5px 25px #333b6705; position:relative; }
+.academic-presentation::before { content:''; position:absolute; inset:0 0 auto; height:4px; background:linear-gradient(90deg,#4f46e5 0%,#818cf8 65%,#cbd5ff 100%); }
+.academic-heading { display:flex; align-items:center; gap:24px; padding:28px 30px; }
+.university-seal { width:135px; flex-shrink:0; padding-right:20px; border-right:1px solid #e9ebf3; }
+.university-seal img { display:block; width:114px; height:90px; object-fit:contain; }
+.academic-heading-copy { flex:1; min-width:0; }
+.academic-eyebrow { font-size:10px; color:#7b83a0; font-weight:700; letter-spacing:1.7px; margin-bottom:10px; }
+h2 { font-size:clamp(24px,2.3vw,33px); line-height:1.17; font-weight:750; color:#222b46; letter-spacing:-1px; margin:0 0 17px; }
+h2 > span { color:#6557e7; }
+.academic-details { display:flex; flex-wrap:wrap; gap:14px 24px; color:#5a657e; }
+.academic-details > span { display:flex; align-items:center; gap:9px; font-size:11px; font-weight:600; }
+.academic-details ::deep svg { width:20px; height:20px; color:#7870cd; flex-shrink:0; }
+.detail-label { display:block; text-transform:uppercase; font-size:8px; color:#9299ac; letter-spacing:1px; margin-bottom:3px; font-weight:700; }
+.project-label { font-size:8px; line-height:1.7; letter-spacing:1.5px; color:#999fb3; text-align:right; align-self:flex-start; padding-top:4px; }
+.project-label strong { color:#5e57a9; font-size:10px; font-weight:750; }
+.team-section { background:#fafbff; border-top:1px solid #eef0f7; padding:18px 30px 21px; }
+.team-heading { display:flex; align-items:center; gap:12px; font-size:9px; letter-spacing:1.5px; font-weight:750; color:#8a90aa; margin:0 0 12px; }
+.team-heading > span { font-size:17px; color:#7c73da; line-height:1; }
+.team-list { display:flex; flex-wrap:wrap; gap:8px 20px; list-style:none; margin:0; padding:0; }
+.team-list li { display:flex; align-items:center; gap:8px; font-size:11px; letter-spacing:.1px; font-weight:650; color:#535e78; line-height:1.5; min-height:24px; }
+.member-number { font-size:9px; font-weight:700; color:#7568d8; background:#eeebfc; width:23px; height:23px; display:inline-grid; place-items:center; border-radius:7px; flex-shrink:0; }
+@media (max-width:1250px) { .project-label { display:none; } .academic-heading { gap:20px; padding:25px; } .team-section { padding:18px 25px; } }
+@media (max-width:600px) {
+.academic-heading { padding:25px 20px; gap:15px; align-items:flex-start; }
+.university-seal { width:67px; padding:3px 0 0; border:0; }
+.university-seal img { width:67px; height:65px; }
+.academic-eyebrow { font-size:8px; line-height:1.6; letter-spacing:1px; margin-bottom:8px; }
+h2 { font-size:24px; letter-spacing:-.65px; }
+.academic-details { gap:12px; }
+.academic-details > span { font-size:10px; }
+.team-section { padding:17px 20px 20px; }
+.team-list { display:grid; gap:8px; }
+.team-list li { font-size:10px; }
+}
+@media (max-width:360px) { .academic-heading { flex-direction:column; } .university-seal { width:80px; } }

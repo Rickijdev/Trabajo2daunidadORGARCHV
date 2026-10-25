@@ -1,30 +1,41 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">BancoApp</a>
+<div class="navigation-panel">
+    <div class="brand-row">
+        <a class="brand-link" href="" aria-label="BancoApp — Ir al inicio" title="BancoApp — Inicio"><span class="brand-symbol"><NavIcon Name="bank" /></span><span class="brand-copy"><strong>Banco<span>App</span></strong><small>BANCO DIGITAL</small></span></a>
+        <button class="mobile-close" type="button" data-nav-close aria-label="Cerrar menú"><NavIcon Name="close" /></button>
     </div>
-</div>
-
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
-
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
+    <nav class="primary-navigation" aria-label="Navegación principal">
+        <div class="menu-group">
+            <p class="menu-caption">PRINCIPAL</p>
+            <div class="menu-entry">
+                <NavLink class="menu-link" href="" Match="NavLinkMatch.All" title="Inicio — Cuentas y movimientos" aria-label="Inicio — Cuentas y movimientos">
+                    <span class="menu-icon"><NavIcon Name="home" /></span><span class="menu-copy"><span class="menu-label">Inicio</span><small>Cuentas y movimientos</small></span><span class="menu-indicator" aria-hidden="true"></span>
+                </NavLink>
+            </div>
         </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
+        <div class="menu-group">
+            <p class="menu-caption">HERRAMIENTAS</p>
+            <div class="menu-entry">
+                <NavLink class="menu-link" href="counter" Match="NavLinkMatch.All" title="Counter — Contador interactivo" aria-label="Counter — Contador interactivo">
+                    <span class="menu-icon"><NavIcon Name="counter" /></span><span class="menu-copy"><span class="menu-label">Counter</span><small>Contador interactivo</small></span><span class="menu-indicator" aria-hidden="true"></span>
+                </NavLink>
+            </div>
+            <div class="menu-entry">
+                <NavLink class="menu-link" href="weather" Match="NavLinkMatch.All" title="Weather — Datos de ejemplo" aria-label="Weather — Datos de ejemplo">
+                    <span class="menu-icon"><NavIcon Name="weather" /></span><span class="menu-copy"><span class="menu-label">Weather</span><small>Datos de ejemplo</small></span><span class="menu-indicator" aria-hidden="true"></span>
+                </NavLink>
+            </div>
         </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
+        <div class="menu-group menu-group-about">
+            <p class="menu-caption">EL PROYECTO</p>
+            <div class="menu-entry">
+                <NavLink class="menu-link" href="about" Match="NavLinkMatch.All" title="Acerca de — Conoce BancoApp" aria-label="Acerca de — Conoce BancoApp">
+                    <span class="menu-icon"><NavIcon Name="info" /></span><span class="menu-copy"><span class="menu-label">Acerca de</span><small>Conoce BancoApp</small></span><span class="menu-indicator" aria-hidden="true"></span>
+                </NavLink>
+            </div>
         </div>
     </nav>
+    <div class="sidebar-bottom">
+        <div class="course-note"><span class="course-icon"><NavIcon Name="book" /></span><p>Aprender. Construir.<br /><strong>Conectar ideas.</strong></p><span class="course-note-subtitle">Organización de Archivos</span><a href="./#presentacion">Conoce al equipo <NavIcon Name="arrow" /></a></div>
+        <a class="university-link" href="./#presentacion" title="Universidad Nacional de Trujillo — Presentación del equipo"><img src="images/unt-logo.png" alt="Logo de la Universidad Nacional de Trujillo" width="46" height="46" /><span class="university-copy"><strong>Universidad Nacional<br />de Trujillo</strong><small>Ingeniería Informática</small></span></a>
+    </div>
 </div>
-
